@@ -112,20 +112,26 @@
     .counter{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px;font-weight:950;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:10px;padding:7px 13px;color:#64748b;}
     .counter strong{color:var(--green)}
     .note{font-size:10.4px;color:#94a3b8;font-weight:800;}
-    .footer-back{
-  display:inline-block;
-  padding:7px 11px;
-  border-radius:999px;
-  background:#0f2a43;
-  color:#ffffff;
-  text-decoration:none;
+.footer-back{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #cbd5e1;
+  border-radius:12px;
+  background:#f8fafc;
+  color:#334155;
+  padding:8px 14px;
   font-size:12px;
-  font-weight:900;
+  font-weight:950;
+  text-decoration:none;
   white-space:nowrap;
+  cursor:pointer;
+  transition:.18s;
 }
 
 .footer-back:hover{
-  background:#173b5a;
+  background:#e2e8f0;
+  border-color:#94a3b8;
 }
     @media (max-width:1080px){
       body{overflow:auto}.deck{max-height:none;aspect-ratio:auto}.slide{position:relative;display:none;height:auto;min-height:720px;padding:22px}.slide.active{display:flex}.nav .text{display:none}.brand{min-width:0}.brand h1{font-size:13px}.grid-3,.grid-4,.grid-2,.split,.cycle{grid-template-columns:1fr}.table{font-size:10px}.cycle-item{min-height:auto}h2{font-size:23px}header,footer{position:sticky}.hint,.note{display:none}

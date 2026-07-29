@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>授業改善の視点｜大学入試で求められる力から通常授業を問い直す</title>
+  <style>
+    :root{
+      --navy:#0f2a43;
+      --navy2:#173b5a;
+      --slate:#475569;
+      --slate2:#64748b;
+      --line:#dbe4ef;
+      --white:#ffffff;
+      --green:#047857;
+      --greenDark:#064e3b;
+      --greenSoft:#ecfdf5;
+      --blue:#0369a1;
+      --blueDark:#075985;
+      --blueSoft:#eff6ff;
+      --amber:#b45309;
+      --amberDark:#92400e;
+      --amberSoft:#fff7ed;
+      --purple:#6d28d9;
+      --purpleSoft:#f5f3ff;
+      --shadow:0 16px 35px rgba(15,42,67,.12),0 6px 14px rgba(15,42,67,.06);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic","YuGothic",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:#0f172a;
+      background:radial-gradient(circle at top left,#ffffff 0,#f0f7f5 35%,#e8eef7 72%,#e2e8f0 100%);
+      overflow:hidden;
+      user-select:none;
+    }
+    .app{min-height:100vh;display:flex;flex-direction:column;}
+    header{
+      height:70px;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+      display:flex;align-items:center;justify-content:center;padding:10px 26px;box-shadow:0 6px 18px rgba(15,42,67,.06);z-index:10;
+    }
+    .header-inner{width:min(1280px,100%);display:flex;align-items:center;justify-content:space-between;gap:18px;}
+    .brand{display:flex;align-items:center;gap:12px;min-width:440px;}
+    .badge{background:var(--navy);color:#fff;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:900;letter-spacing:.04em;box-shadow:0 4px 10px rgba(15,42,67,.16);white-space:nowrap;}
+    .brand h1{margin:0;font-size:15px;color:var(--navy);font-weight:900;line-height:1.35;}
+    .nav{display:flex;align-items:center;gap:8px;}
+    .nav button{border:1px solid #cbd5e1;background:#fff;color:var(--slate2);border-radius:12px;padding:8px 11px;display:flex;align-items:center;gap:8px;font-weight:900;font-size:12px;cursor:pointer;transition:.18s;}
+    .nav button:hover{border-color:#94a3b8;background:#f8fafc;}
+    .nav button .num{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#e2e8f0;color:#475569;font-size:12px;}
+    .nav button.active{border-color:var(--green);background:var(--greenSoft);color:var(--greenDark);box-shadow:0 5px 15px rgba(4,120,87,.13);}
+    .nav button.active .num{background:var(--green);color:white;}
+    .nav button.done .num{background:#94a3b8;color:white;}
+    main{flex:1;display:grid;place-items:center;padding:18px 24px 14px;}
+    .deck{width:min(1240px,100%);aspect-ratio:16/9;max-height:calc(100vh - 142px);position:relative;}
+    .slide{position:absolute;inset:0;background:var(--white);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:24px 30px;display:none;overflow:hidden;}
+    .slide.active{display:flex;flex-direction:column;justify-content:space-between;gap:12px;}
+    .slide::before{content:"";position:absolute;right:-160px;top:-190px;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle,rgba(4,120,87,.11),rgba(4,120,87,0) 65%);}
+    .slide-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:10px;position:relative;z-index:1;}
+    .step-label{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:7px 13px;font-size:12px;font-weight:950;border:1px solid;}
+    .step-label.green{background:var(--greenSoft);border-color:#a7f3d0;color:var(--greenDark);}
+    .step-label.blue{background:var(--blueSoft);border-color:#bfdbfe;color:var(--blueDark);}
+    .step-label.amber{background:var(--amberSoft);border-color:#fed7aa;color:var(--amberDark);}
+    .slide-no{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px;color:#94a3b8;font-weight:900;}
+    h2{margin:0;color:var(--navy);font-size:27px;line-height:1.24;font-weight:950;letter-spacing:-.03em;position:relative;z-index:1;}
+    h2 .accent-green{color:var(--green)} h2 .accent-blue{color:var(--blue)} h2 .accent-amber{color:var(--amber)}
+    .lead{margin:7px 0 0;color:#526173;font-size:13.1px;line-height:1.62;max-width:1100px;position:relative;z-index:1;}
+    .grid{display:grid;gap:12px;position:relative;z-index:1;}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .grid-4{grid-template-columns:repeat(4,1fr)}
+    .card{border:1px solid var(--line);border-radius:17px;background:#fff;box-shadow:0 8px 18px rgba(15,42,67,.055);padding:13px;min-height:0;}
+    .soft-green{background:linear-gradient(180deg,#f0fdf4,#fff);border-color:#bbf7d0;}
+    .soft-blue{background:linear-gradient(180deg,#eff6ff,#fff);border-color:#bfdbfe;}
+    .soft-amber{background:linear-gradient(180deg,#fff7ed,#fff);border-color:#fed7aa;}
+    .soft-purple{background:linear-gradient(180deg,#f5f3ff,#fff);border-color:#ddd6fe;}
+    .card-title{display:flex;align-items:center;gap:9px;margin-bottom:8px;}
+    .icon{width:33px;height:33px;border-radius:11px;display:grid;place-items:center;color:#fff;font-weight:950;box-shadow:0 8px 14px rgba(15,42,67,.12);flex:0 0 auto;font-size:13px;}
+    .icon.green{background:var(--green)} .icon.blue{background:var(--blue)} .icon.amber{background:var(--amber)} .icon.purple{background:var(--purple)}
+    .card h3{margin:0;font-size:14px;line-height:1.34;color:var(--navy);font-weight:950;}
+    .card p{margin:0;color:#475569;font-size:11.8px;line-height:1.58;}
+    .mini{padding:8px;border-radius:11px;background:#f8fafc;border:1px solid #e2e8f0;margin-top:8px;}
+    .mini strong{color:#0f2a43;}
+    .quote-box{border-radius:17px;padding:12px 15px;background:#f8fafc;border:1px solid #e2e8f0;display:flex;gap:12px;align-items:flex-start;position:relative;z-index:1;}
+    .quote-box .mark{width:36px;height:36px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:17px;flex:0 0 auto;}
+    .quote-box p{margin:0;font-size:12px;line-height:1.58;color:#334155;}
+    .block-title{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #e2e8f0;padding-bottom:8px;margin-bottom:9px;}
+    .pill{border-radius:999px;padding:5px 9px;font-size:10.5px;font-weight:950;color:#fff;white-space:nowrap;}
+    .pill.green{background:var(--green)} .pill.blue{background:var(--blue)} .pill.amber{background:var(--amber)} .pill.purple{background:var(--purple)}
+    ul{margin:0;padding-left:18px;color:#475569;font-size:11.6px;line-height:1.52;}
+    li{margin:3px 0;} li strong{color:#0f2a43;}
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:relative;z-index:1;}
+    .table{width:100%;border-collapse:separate;border-spacing:0;font-size:10.75px;line-height:1.38;position:relative;z-index:1;box-shadow:0 8px 18px rgba(15,42,67,.055);border-radius:15px;overflow:hidden;border:1px solid #cbd5e1;}
+    .table th{background:#0f2a43;color:#fff;font-weight:950;padding:8px;text-align:left;border-right:1px solid rgba(255,255,255,.2);}
+    .table td{background:#fff;padding:7px 8px;vertical-align:top;border-top:1px solid #e2e8f0;border-right:1px solid #e2e8f0;color:#334155;}
+    .table tr:nth-child(even) td{background:#f8fafc;}
+    .table td:first-child{font-weight:950;color:#0f2a43;background:#eef6ff;}
+    .table td:last-child,.table th:last-child{border-right:none;}
+    .cycle{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;position:relative;z-index:1;}
+    .cycle-item{padding:11px;border-radius:14px;background:#fff;border:1px solid #e2e8f0;min-height:114px;display:flex;flex-direction:column;gap:6px;}
+    .cycle-item span{font-size:20px}.cycle-item p{margin:0;font-size:11px;line-height:1.45;color:#475569}.cycle-item strong{color:#0f2a43;}
+    .message{display:flex;align-items:center;gap:14px;border-radius:18px;padding:13px 17px;background:linear-gradient(135deg,#064e3b,#173b5a 60%,#0f172a);color:white;box-shadow:0 14px 25px rgba(15,42,67,.14);position:relative;z-index:1;}
+    .message .mark{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:22px;flex:0 0 auto;}
+    .message p{margin:0;font-size:12.8px;line-height:1.62;font-weight:750;color:#f8fafc;}
+    footer{height:54px;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:center;padding:8px 24px;box-shadow:0 -6px 18px rgba(15,42,67,.05);}
+    .footer-inner{width:min(1280px,100%);display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .hint{font-size:12px;color:#64748b;font-weight:800;}
+    .controls{display:flex;align-items:center;gap:10px;}
+    .controls button{border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc;color:#334155;padding:8px 14px;font-size:12px;font-weight:950;cursor:pointer;transition:.18s;}
+    .controls button.next{background:var(--green);border-color:var(--green);color:white;}
+    .counter{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px;font-weight:950;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:10px;padding:7px 13px;color:#64748b;}
+    .counter strong{color:var(--green)}
+    .note{font-size:10.4px;color:#94a3b8;font-weight:800;}
+    @media (max-width:1080px){
+      body{overflow:auto}.deck{max-height:none;aspect-ratio:auto}.slide{position:relative;display:none;height:auto;min-height:720px;padding:22px}.slide.active{display:flex}.nav .text{display:none}.brand{min-width:0}.brand h1{font-size:13px}.grid-3,.grid-4,.split,.cycle{grid-template-columns:1fr}.table{font-size:10px}.cycle-item{min-height:auto}h2{font-size:23px}header,footer{position:sticky}.hint,.note{display:none}
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <span class="badge">視点</span>
+        <h1>大学入試で求められる力から通常授業を問い直すための視点</h1>
+      </div>
+      <nav class="nav" aria-label="スライド移動">
+        <button id="nav-1" onclick="goTo(1)"><span class="num">1</span><span class="text">研究の価値</span></button>
+        <button id="nav-2" onclick="goTo(2)"><span class="num">2</span><span class="text">深めたい点</span></button>
+        <button id="nav-3" onclick="goTo(3)"><span class="num">3</span><span class="text">参加者へ</span></button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="deck">
+      <section id="slide-1" class="slide active">
+        <div>
+          <div class="slide-head">
+            <span class="step-label green">STEP 1：本研究の価値</span>
+            <span class="slide-no">SLIDE 01 / 03</span>
+          </div>
+          <h2>大学入試から逆算し、<span class="accent-green">通常授業と評価問題を問い直す</span>バックワードデザインの研究</h2>
+          <p class="lead">今回の研究は、大学入試問題を「3年次からの受験対策」として切り離すのではなく、日常授業でどのような数学力を育てておく必要があるのかを、出口から逆算して問い直しています。</p>
+        </div>
+        <div class="grid grid-4">
+          <div class="card soft-green">
+            <div class="card-title"><span class="icon green">1</span><h3>出口から授業を問い直す</h3></div>
+            <p>進路意識が本格化してから短期間で入試対策を行うのではなく、通常授業で積み上げるべき力を入試問題から逆算しています。</p>
+            <div class="mini"><p><strong>価値：</strong>受験対策と授業を分断しない視点。</p></div>
+          </div>
+          <div class="card soft-green">
+            <div class="card-title"><span class="icon green">2</span><h3>教材の到達範囲を可視化</h3></div>
+            <p>Essence、Select、Standard等と入試問題を照合し、現在の教材でどこまで届くのかを具体的に示しています。</p>
+            <div class="mini"><p><strong>価値：</strong>教材選定を感覚ではなく分析で考える。</p></div>
+          </div>
+          <div class="card soft-green">
+            <div class="card-title"><span class="icon green">3</span><h3>多様な進路を前提にする</h3></div>
+            <p>進学希望者だけでなく、就職希望者への負荷や授業単位数、商業クラスとの調整まで視野に入れています。</p>
+            <div class="mini"><p><strong>価値：</strong>学校の実態を踏まえた現実的な研究。</p></div>
+          </div>
+          <div class="card soft-green">
+            <div class="card-title"><span class="icon green">4</span><h3>カリキュラム・マネジメントの中核</h3></div>
+            <p>どの生徒に、どの時期に、どのレベルの数学を、どの教材で保障するのかを教科として考える研究です。</p>
+            <div class="mini"><p><strong>価値：</strong>教科書選定を教育課程全体の議論へ。</p></div>
+          </div>
+        </div>
+        <div class="quote-box">
+          <div class="mark">核</div>
+          <p><strong>本研究から考えたいこと：</strong>この研究は「入試に出るから難しい問題をやる」という話にとどまりません。高校の出口で求められる力から逆算し、通常授業・評価問題・教材選定をどう設計するかを問う研究であり、まさにカリキュラム・マネジメントのコアに関わる実践です。</p>
+        </div>
+      </section>
+
+      <section id="slide-2" class="slide">
+        <div>
+          <div class="slide-head">
+            <span class="step-label blue">STEP 2：今後さらに深めたい点</span>
+            <span class="slide-no">SLIDE 02 / 03</span>
+          </div>
+          <h2>教科書選定にとどめず、<span class="accent-blue">評価問題を変えて授業を変える</span>視点へ</h2>
+          <p class="lead">評価問題は、生徒に対するメッセージです。何を評価するかによって、教師が授業で大切にすることも、生徒が学びで大切にすることも変わります。だからこそ、評価問題が「身につけさせたい力」を反映しているかを問い直すことが重要です。</p>
+        </div>
+        <div class="split">
+          <div class="card soft-blue">
+            <div class="block-title"><h3>「入試対応力」を分解して授業へ戻す</h3><span class="pill blue">力の分解</span></div>
+            <ul>
+              <li><strong>基本公式や定理を正しく使う力</strong></li>
+              <li><strong>問題文から使うべき単元・考え方を判断する力</strong></li>
+              <li><strong>複数の既習事項を組み合わせる力</strong></li>
+              <li><strong>解法の方針を立てる力</strong></li>
+              <li><strong>途中過程を論理的に記述する力</strong></li>
+              <li><strong>結果の妥当性を確認する力</strong></li>
+            </ul>
+            <div class="mini"><p><strong>提案：</strong>入試問題分析を「難問演習」ではなく、通常授業で育てる力の分解に使う。</p></div>
+          </div>
+          <div class="card soft-blue">
+            <div class="block-title"><h3>評価問題を変える具体例</h3><span class="pill blue">問い方の改善</span></div>
+            <ul>
+              <li>「値を求めよ」に加えて、<strong>用いた関係式と符号判断の理由</strong>を説明させる。</li>
+              <li>対数方程式では、<strong>どの式変形・置換を行うとよいか</strong>方針を問う。</li>
+              <li>ベクトルでは、<strong>図形的性質をどの条件に置き換えるか</strong>を説明させる。</li>
+              <li>章末問題では、<strong>複数単元の接続</strong>や、解法選択の根拠を問う。</li>
+            </ul>
+            <div class="mini"><p><strong>提案：</strong>求値の前後に「なぜ」「どの考えを使うか」を入れるだけでも授業は変わる。</p></div>
+          </div>
+        </div>
+        <table class="table" aria-label="評価問題のあり方と授業改善">
+          <thead>
+            <tr>
+              <th>評価問題のあり方</th>
+              <th>生徒に伝わるメッセージ</th>
+              <th>授業改善への示唆</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>値を求める問題だけ</td>
+              <td>答えの値が出ればよい。途中過程や考え方は二の次になりやすい。</td>
+              <td>計算処理中心の授業になりやすい。類題から外れると対応しにくい。</td>
+            </tr>
+            <tr>
+              <td>根拠を問う問題</td>
+              <td>なぜそうなるのかを説明することが大切だと受け止める。</td>
+              <td>公式の意味、条件、符号判断などを扱う授業につながる。</td>
+            </tr>
+            <tr>
+              <td>方針を問う問題</td>
+              <td>どう考え始めるか、どの既習事項を使うかが大切だと分かる。</td>
+              <td>解法選択を言語化し、見通しをもつ活動を入れやすくなる。</td>
+            </tr>
+            <tr>
+              <td>既習事項の接続を問う問題</td>
+              <td>単元を越えて考えること、知識を組み合わせることが必要だと考える。</td>
+              <td>章末問題や入試問題に近い総合的な思考を通常授業へ戻せる。</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="slide-3" class="slide">
+        <div>
+          <div class="slide-head">
+            <span class="step-label amber">STEP 3：参加者への期待</span>
+            <span class="slide-no">SLIDE 03 / 03</span>
+          </div>
+          <h2>自校の評価問題・教材・進路実態を照らし合わせ、<span class="accent-amber">日常授業を見直す</span></h2>
+          <p class="lead">今回の研究は、宮古商工高校だけの課題ではありません。どの学校でも、普段の授業、定期考査、使用教材、進路実態の間には何らかのギャップが存在します。</p>
+        </div>
+        <div class="cycle">
+          <div class="cycle-item"><span>①</span><p><strong>評価問題を見直す</strong><br>定期考査は、値を出す力だけでなく、根拠・方針・説明を問えているか。<br>（身につけさせたい力を反映させられているか）</p></div>
+          <div class="cycle-item"><span>②</span><p><strong>教材を見直す</strong><br>使用教材は、生徒の進路や出口で求められる力にどこまで接続しているか。</p></div>
+          <div class="cycle-item"><span>③</span><p><strong>授業を見直す</strong><br>通常授業で、解法選択や既習事項の接続を考えさせる場面はあるか。</p></div>
+          <div class="cycle-item"><span>④</span><p><strong>教科で共有する</strong><br>学年ごとの到達目標、通常授業と課外の役割分担を共有できているか。</p></div>
+        </div>
+        <div class="grid grid-3">
+          <div class="card soft-amber">
+            <div class="card-title"><span class="icon amber">問</span><h3>参加者に持ち帰ってほしい問い</h3></div>
+            <ul>
+              <li>自校の評価問題は何を評価しているか。</li>
+              <li>求値問題に偏りすぎていないか。</li>
+              <li>根拠や説明を求める問題はあるか。<br>（身につけさせたい力が評価問題に表れているか）</li>
+              <li>進学希望が出てきたとき、通常授業の積み上げは接続できるか。</li>
+            </ul>
+          </div>
+          <div class="card soft-amber">
+            <div class="card-title"><span class="icon amber">設</span><h3>教師側の設計に踏み込む</h3></div>
+            <p>生徒の実態はもちろん大切です。その実態を前提に、教師側がどの教材を選び、どの問題を評価に置き、どのように授業で積み上げるかを考えることも同じくらい大切です。</p>
+          </div>
+          <div class="card soft-amber">
+            <div class="card-title"><span class="icon amber">可</span><h3>生徒の可能性を広げる</h3></div>
+            <p>進学者が少ない学校であっても、出口から逆算して通常授業を考える視点は必要です。評価問題を変え、授業を変えることは、生徒の選択肢を広げる一歩になります。</p>
+          </div>
+        </div>
+        <div class="message">
+          <div class="mark">🌱</div>
+          <p>「生徒ができない」で終わらせず、その実態を出発点として、どの教材を選び、どの問題で評価し、どのように授業で積み上げるかを教科として考える。今回の研究は、その教師側の設計に踏み込む大切な一歩です。</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="hint">← → キー / Space で移動　｜　Fキーで全画面表示</div>
+      <div class="controls">
+        <button onclick="change(-1)" id="prev">← 前へ</button>
+        <div class="counter"><strong id="now">1</strong> / 3</div>
+        <button onclick="change(1)" id="next" class="next">次へ →</button>
+      </div>
+      <div class="note">根拠資料：文科省 算数・数学WG資料／NIER 学習評価参考資料【高校数学】</div>
+    </div>
+  </footer>
+</div>
+<script>
+  let current = 1;
+  const total = 3;
+  function update(){
+    for(let i=1;i<=total;i++){
+      document.getElementById('slide-'+i).classList.toggle('active', i===current);
+      const nav = document.getElementById('nav-'+i);
+      nav.classList.toggle('active', i===current);
+      nav.classList.toggle('done', i<current);
+    }
+    document.getElementById('now').textContent=current;
+    const prev=document.getElementById('prev');
+    const next=document.getElementById('next');
+    prev.style.opacity=current===1?.4:1;
+    prev.style.cursor=current===1?'not-allowed':'pointer';
+    next.textContent=current===total?'終了 ✓':'次へ →';
+    next.className=current===total?'':'next';
+  }
+  function change(delta){
+    const target=current+delta;
+    if(target>=1&&target<=total){current=target;update();}
+  }
+  function goTo(n){current=n;update();}
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '){change(1);}
+    if(e.key==='ArrowLeft'){change(-1);}
+    if(e.key.toLowerCase()==='f'){
+      if(!document.fullscreenElement){document.documentElement.requestFullscreen?.();}
+      else{document.exitFullscreen?.();}
+    }
+  });
+  update();
+</script>
+</body>
+</html>

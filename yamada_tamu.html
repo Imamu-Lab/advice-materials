@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>授業改善の視点｜三角比の有用性を実感する探究的活動</title>
+  <style>
+    :root{
+      --navy:#0f2a43;
+      --navy2:#173b5a;
+      --slate:#475569;
+      --slate2:#64748b;
+      --line:#dbe4ef;
+      --white:#ffffff;
+      --green:#047857;
+      --greenDark:#064e3b;
+      --greenSoft:#ecfdf5;
+      --blue:#0369a1;
+      --blueDark:#075985;
+      --blueSoft:#eff6ff;
+      --amber:#b45309;
+      --amberDark:#92400e;
+      --amberSoft:#fff7ed;
+      --purple:#6d28d9;
+      --purpleSoft:#f5f3ff;
+      --shadow:0 16px 35px rgba(15,42,67,.12),0 6px 14px rgba(15,42,67,.06);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic","YuGothic",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:#0f172a;
+      background:radial-gradient(circle at top left,#ffffff 0,#f0f7f5 35%,#e8eef7 72%,#e2e8f0 100%);
+      overflow:hidden;
+      user-select:none;
+    }
+    .app{min-height:100vh;display:flex;flex-direction:column;}
+    header{
+      height:70px;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+      display:flex;align-items:center;justify-content:center;padding:10px 26px;box-shadow:0 6px 18px rgba(15,42,67,.06);z-index:10;
+    }
+    .header-inner{width:min(1280px,100%);display:flex;align-items:center;justify-content:space-between;gap:18px;}
+    .brand{display:flex;align-items:center;gap:12px;min-width:430px;}
+    .badge{background:var(--navy);color:#fff;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:900;letter-spacing:.04em;box-shadow:0 4px 10px rgba(15,42,67,.16);white-space:nowrap;}
+    .brand h1{margin:0;font-size:15px;color:var(--navy);font-weight:900;line-height:1.35;}
+    .nav{display:flex;align-items:center;gap:8px;}
+    .nav button{border:1px solid #cbd5e1;background:#fff;color:var(--slate2);border-radius:12px;padding:8px 11px;display:flex;align-items:center;gap:8px;font-weight:900;font-size:12px;cursor:pointer;transition:.18s;}
+    .nav button:hover{border-color:#94a3b8;background:#f8fafc;}
+    .nav button .num{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#e2e8f0;color:#475569;font-size:12px;}
+    .nav button.active{border-color:var(--green);background:var(--greenSoft);color:var(--greenDark);box-shadow:0 5px 15px rgba(4,120,87,.13);}
+    .nav button.active .num{background:var(--green);color:white;}
+    .nav button.done .num{background:#94a3b8;color:white;}
+    main{flex:1;display:grid;place-items:center;padding:18px 24px 14px;}
+    .deck{width:min(1240px,100%);aspect-ratio:16/9;max-height:calc(100vh - 142px);position:relative;}
+    .slide{position:absolute;inset:0;background:var(--white);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:24px 30px;display:none;overflow:hidden;}
+    .slide.active{display:flex;flex-direction:column;justify-content:space-between;gap:12px;}
+    .slide::before{content:"";position:absolute;right:-160px;top:-190px;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle,rgba(4,120,87,.11),rgba(4,120,87,0) 65%);}
+    .slide-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:10px;position:relative;z-index:1;}
+    .step-label{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:7px 13px;font-size:12px;font-weight:950;border:1px solid;}
+    .step-label.green{background:var(--greenSoft);border-color:#a7f3d0;color:var(--greenDark);}
+    .step-label.blue{background:var(--blueSoft);border-color:#bfdbfe;color:var(--blueDark);}
+    .step-label.amber{background:var(--amberSoft);border-color:#fed7aa;color:var(--amberDark);}
+    .slide-no{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px;color:#94a3b8;font-weight:900;}
+    h2{margin:0;color:var(--navy);font-size:27px;line-height:1.24;font-weight:950;letter-spacing:-.03em;position:relative;z-index:1;}
+    h2 .accent-green{color:var(--green)} h2 .accent-blue{color:var(--blue)} h2 .accent-amber{color:var(--amber)}
+    .lead{margin:7px 0 0;color:#526173;font-size:13.1px;line-height:1.62;max-width:1100px;position:relative;z-index:1;}
+    .grid{display:grid;gap:12px;position:relative;z-index:1;}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .grid-4{grid-template-columns:repeat(4,1fr)}
+    .grid-2{grid-template-columns:repeat(2,1fr)}
+    .card{border:1px solid var(--line);border-radius:17px;background:#fff;box-shadow:0 8px 18px rgba(15,42,67,.055);padding:13px;min-height:0;}
+    .soft-green{background:linear-gradient(180deg,#f0fdf4,#fff);border-color:#bbf7d0;}
+    .soft-blue{background:linear-gradient(180deg,#eff6ff,#fff);border-color:#bfdbfe;}
+    .soft-amber{background:linear-gradient(180deg,#fff7ed,#fff);border-color:#fed7aa;}
+    .soft-purple{background:linear-gradient(180deg,#f5f3ff,#fff);border-color:#ddd6fe;}
+    .card-title{display:flex;align-items:center;gap:9px;margin-bottom:8px;}
+    .icon{width:33px;height:33px;border-radius:11px;display:grid;place-items:center;color:#fff;font-weight:950;box-shadow:0 8px 14px rgba(15,42,67,.12);flex:0 0 auto;font-size:13px;}
+    .icon.green{background:var(--green)} .icon.blue{background:var(--blue)} .icon.amber{background:var(--amber)} .icon.purple{background:var(--purple)}
+    .card h3{margin:0;font-size:14px;line-height:1.34;color:var(--navy);font-weight:950;}
+    .card p{margin:0;color:#475569;font-size:11.8px;line-height:1.58;}
+    .mini{padding:8px;border-radius:11px;background:#f8fafc;border:1px solid #e2e8f0;margin-top:8px;}
+    .mini strong{color:#0f2a43;}
+    .quote-box{border-radius:17px;padding:12px 15px;background:#f8fafc;border:1px solid #e2e8f0;display:flex;gap:12px;align-items:flex-start;position:relative;z-index:1;}
+    .quote-box .mark{width:36px;height:36px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:17px;flex:0 0 auto;}
+    .quote-box p{margin:0;font-size:12px;line-height:1.58;color:#334155;}
+    .block-title{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #e2e8f0;padding-bottom:8px;margin-bottom:9px;}
+    .pill{border-radius:999px;padding:5px 9px;font-size:10.5px;font-weight:950;color:#fff;white-space:nowrap;}
+    .pill.green{background:var(--green)} .pill.blue{background:var(--blue)} .pill.amber{background:var(--amber)} .pill.purple{background:var(--purple)}
+    ul{margin:0;padding-left:18px;color:#475569;font-size:11.6px;line-height:1.52;}
+    li{margin:3px 0;} li strong{color:#0f2a43;}
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:relative;z-index:1;}
+    .table{width:100%;border-collapse:separate;border-spacing:0;font-size:10.65px;line-height:1.38;position:relative;z-index:1;box-shadow:0 8px 18px rgba(15,42,67,.055);border-radius:15px;overflow:hidden;border:1px solid #cbd5e1;}
+    .table th{background:#0f2a43;color:#fff;font-weight:950;padding:8px;text-align:left;border-right:1px solid rgba(255,255,255,.2);}
+    .table td{background:#fff;padding:7px 8px;vertical-align:top;border-top:1px solid #e2e8f0;border-right:1px solid #e2e8f0;color:#334155;}
+    .table tr:nth-child(even) td{background:#f8fafc;}
+    .table td:first-child{font-weight:950;color:#0f2a43;background:#eef6ff;}
+    .table td:last-child,.table th:last-child{border-right:none;}
+    .cycle{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;position:relative;z-index:1;}
+    .cycle-item{padding:11px;border-radius:14px;background:#fff;border:1px solid #e2e8f0;min-height:114px;display:flex;flex-direction:column;gap:6px;}
+    .cycle-item span{font-size:20px}.cycle-item p{margin:0;font-size:11px;line-height:1.45;color:#475569}.cycle-item strong{color:#0f2a43;}
+    .message{display:flex;align-items:center;gap:14px;border-radius:18px;padding:13px 17px;background:linear-gradient(135deg,#064e3b,#173b5a 60%,#0f172a);color:white;box-shadow:0 14px 25px rgba(15,42,67,.14);position:relative;z-index:1;}
+    .message .mark{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:22px;flex:0 0 auto;}
+    .message p{margin:0;font-size:12.8px;line-height:1.62;font-weight:750;color:#f8fafc;}
+    footer{height:54px;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:center;padding:8px 24px;box-shadow:0 -6px 18px rgba(15,42,67,.05);}
+    .footer-inner{width:min(1280px,100%);display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .hint{font-size:12px;color:#64748b;font-weight:800;}
+    .controls{display:flex;align-items:center;gap:10px;}
+    .controls button{border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc;color:#334155;padding:8px 14px;font-size:12px;font-weight:950;cursor:pointer;transition:.18s;}
+    .controls button.next{background:var(--green);border-color:var(--green);color:white;}
+    .counter{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px;font-weight:950;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:10px;padding:7px 13px;color:#64748b;}
+    .counter strong{color:var(--green)}
+    .note{font-size:10.4px;color:#94a3b8;font-weight:800;}
+    @media (max-width:1080px){
+      body{overflow:auto}.deck{max-height:none;aspect-ratio:auto}.slide{position:relative;display:none;height:auto;min-height:720px;padding:22px}.slide.active{display:flex}.nav .text{display:none}.brand{min-width:0}.brand h1{font-size:13px}.grid-3,.grid-4,.grid-2,.split,.cycle{grid-template-columns:1fr}.table{font-size:10px}.cycle-item{min-height:auto}h2{font-size:23px}header,footer{position:sticky}.hint,.note{display:none}
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <span class="badge">視点</span>
+        <h1>三角比の有用性を実感する探究的活動から考える授業改善</h1>
+      </div>
+      <nav class="nav" aria-label="スライド移動">
+        <button id="nav-1" onclick="goTo(1)"><span class="num">1</span><span class="text">実践の価値</span></button>
+        <button id="nav-2" onclick="goTo(2)"><span class="num">2</span><span class="text">深めたい点</span></button>
+        <button id="nav-3" onclick="goTo(3)"><span class="num">3</span><span class="text">参加者へ</span></button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="deck">
+      <section id="slide-1" class="slide active">
+        <div>
+          <div class="slide-head">
+            <span class="step-label green">STEP 1：本実践の価値</span>
+            <span class="slide-no">SLIDE 01 / 03</span>
+          </div>
+          <h2>単なる体験活動ではなく、<span class="accent-green">生徒の学びを見通した戦略的な授業設計</span></h2>
+          <p class="lead">校舎の高さを測定する活動は、生徒の興味を引きやすい体験的な実践です。しかし本実践の価値は、活動の楽しさだけではなく、ワークシートによって予想・計画・測定・計算・誤差分析・結論までを学びとして成立させている点にあります。</p>
+        </div>
+        <div class="grid grid-4">
+          <div class="card soft-green">
+            <div class="card-title"><span class="icon green">1</span><h3>ねらいが明確</h3></div>
+            <p>三角比の有用性を実感する、日常との関連を図る、歴史教材を活用するという授業者の意図が活動全体に反映されています。</p>
+            <div class="mini"><p><strong>価値：</strong>「何を感じてほしいか」が設計に表れている。</p></div>
+          </div>
+          <div class="card soft-green">
+            <div class="card-title"><span class="icon green">2</span><h3>ワークシートが学びのガイド</h3></div>
+            <p>評価規準、測定計画、誤差予想、三角比を選んだ理由、信頼度評価、振り返りが段階的に配置されています。</p>
+            <div class="mini"><p><strong>価値：</strong>体験を数学的な思考へつなぐ道筋がある。</p></div>
+          </div>
+          <div class="card soft-green">
+            <div class="card-title"><span class="icon green">3</span><h3>数量感覚を働かせる</h3></div>
+            <p>測定前に校舎の高さを予想し、身長や1階分の高さなど身近な量を基準に見積もる活動が入っています。</p>
+            <div class="mini"><p><strong>価値：</strong>計算前に量を捉える感覚を育てている。</p></div>
+          </div>
+          <div class="card soft-green">
+            <div class="card-title"><span class="icon green">4</span><h3>誤差と信頼性まで扱う</h3></div>
+            <p>測定値と図面・スマートフォン等の値を比較し、誤差や信頼度、改善点を考える構成になっています。</p>
+            <div class="mini"><p><strong>価値：</strong>「求めたら終わり」ではなく、結果の妥当性を考える。</p></div>
+          </div>
+        </div>
+        <div class="quote-box">
+          <div class="mark">核</div>
+          <p><strong>本実践から考えたいこと：</strong>この実践は「校舎の高さを測ってみた」という一回限りの活動ではありません。生徒が見通しをもち、測定し、計算し、誤差を考え、信頼度を評価し、改善点を考えるところまで設計された、戦略的な数学的活動として価値づけたいと思います。</p>
+        </div>
+      </section>
+
+      <section id="slide-2" class="slide">
+        <div>
+          <div class="slide-head">
+            <span class="step-label blue">STEP 2：今後さらに深めたい点</span>
+            <span class="slide-no">SLIDE 02 / 03</span>
+          </div>
+          <h2>「楽しかった」「分かった」から、<span class="accent-blue">数学を活用しようとする姿勢</span>へつなげる</h2>
+          <p class="lead">生徒の「数学でも面白いことができる」「仕組みが分かってきた」という反応は大切な成果です。さらに一歩進めて、感覚で判断していたものを数学で考える姿勢や、別の場面にも使おうとする姿を引き出したいところです。</p>
+        </div>
+        <div class="split">
+          <div class="card soft-blue">
+            <div class="block-title"><h3>振り返りに追加したい問い</h3><span class="pill blue">活用の言語化</span></div>
+            <ul>
+              <li><strong>これまで感覚で判断していたことを、数学で考えられると思った場面はどこか。</strong></li>
+              <li><strong>校舎の高さ以外に、この方法で調べられそうなものは何か。</strong></li>
+              <li>三角比を使うことで、直接測れない量をどのように求められると分かったか。</li>
+              <li>測定値が正確でない場合、計算結果はどのように変わるか。</li>
+              <li>生活・仕事・地域の中で、この考え方を使える場面はあるか。</li>
+            </ul>
+            <div class="mini"><p><strong>提案：</strong>感想を「楽しかった」で終わらせず、数学を活用する視点まで書かせる。</p></div>
+          </div>
+          <div class="card soft-blue">
+            <div class="block-title"><h3>数学科として見取りたい力</h3><span class="pill blue">評価との接続</span></div>
+            <ul>
+              <li>どの三角比を選ぶか、なぜtanを使うのかを説明できる。</li>
+              <li>距離・仰角・目の高さを、図のどこに対応させるかを整理できる。</li>
+              <li>実空間を直角三角形としてモデル化できる。</li>
+              <li>誤差の原因を測定・計算・モデル化の視点から考えられる。</li>
+              <li>測定方法の改善案を具体的に提案できる。</li>
+            </ul>
+            <div class="mini"><p><strong>提案：</strong>評価規準を用いて「数学を使って現実を考えようとする姿」も見取る。</p></div>
+          </div>
+        </div>
+        <table class="table" aria-label="活動後のアウトプットを深める視点">
+          <thead>
+            <tr>
+              <th>活動後に出やすい反応</th>
+              <th>さらに引き出したい姿</th>
+              <th>指導・問い返しの例</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>数学でも面白いことができると思った。</td>
+              <td>数学を使うと、直接測れない量も考えられると捉える。</td>
+              <td>「三角比を使ったから分かったことは何か」と問い返す。</td>
+            </tr>
+            <tr>
+              <td>思ったより正確に測れて驚いた。</td>
+              <td>結果の正確さや信頼性を、誤差や測定条件から考える。</td>
+              <td>「なぜその誤差になったのか」「許容範囲と言えるか」を考えさせる。</td>
+            </tr>
+            <tr>
+              <td>測定が難しかった。</td>
+              <td>難しさを、角度・距離・目線・姿勢などの要因に分けて分析する。</td>
+              <td>「次回、どの条件を変えればよりよくなるか」を具体化させる。</td>
+            </tr>
+            <tr>
+              <td>グループでやるうちに仕組みが分かった。</td>
+              <td>自分たちの考え方を図・式・言葉で説明できる。</td>
+              <td>「なぜその式になるのか」を班の説明としてまとめさせる。</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="slide-3" class="slide">
+        <div>
+          <div class="slide-head">
+            <span class="step-label amber">STEP 3：参加者への期待</span>
+            <span class="slide-no">SLIDE 03 / 03</span>
+          </div>
+          <h2>身近な対象とよく設計されたワークシートが、<span class="accent-amber">探究的な数学授業</span>を支える</h2>
+          <p class="lead">探究的な授業は、特別な大型設備や高度なICTがなくても始められます。身近な対象、簡単な道具、そして生徒の思考を導くワークシートがあれば、数学の有用性を実感できる授業は十分に実現できます。</p>
+        </div>
+        <div class="cycle">
+          <div class="cycle-item"><span>①</span><p><strong>身近な対象を選ぶ</strong><br>校舎、木、体育館、坂道など、学校の中にある測れる対象から始める。</p></div>
+          <div class="cycle-item"><span>②</span><p><strong>予想を入れる</strong><br>いきなり計算せず、身長や建物の階数などから数量感覚を働かせる。</p></div>
+          <div class="cycle-item"><span>③</span><p><strong>理由を書かせる</strong><br>なぜその三角比を使うのか、どの値を測る必要があるのかを言語化する。</p></div>
+          <div class="cycle-item"><span>④</span><p><strong>活用へつなげる</strong><br>誤差や改善点に加え、別の場面で使えそうなことを振り返らせる。</p></div>
+        </div>
+        <div class="grid grid-3">
+          <div class="card soft-amber">
+            <div class="card-title"><span class="icon amber">真</span><h3>真似しやすい要素</h3></div>
+            <ul>
+              <li>事前予想をさせる。</li>
+              <li>測定計画を書かせる。</li>
+              <li>使用する数学を選ばせる。</li>
+              <li>誤差と信頼度を考えさせる。</li>
+              <li>次回の改善点を書かせる。</li>
+            </ul>
+          </div>
+          <div class="card soft-amber">
+            <div class="card-title"><span class="icon amber">型</span><h3>すべてを一度にしなくてよい</h3></div>
+            <p>通常授業でも、予想だけ入れる、なぜtanを使うかだけ考えさせる、誤差の原因だけ話し合わせるなど、一部を取り入れることから始められます。</p>
+          </div>
+          <div class="card soft-amber">
+            <div class="card-title"><span class="icon amber">姿</span><h3>数学を使う姿勢へ</h3></div>
+            <p>活動が楽しかったで終わらず、数学を使って現実を考える姿勢につなげることが大切です。ワークシートは、その姿勢を育てる重要なしかけになります。</p>
+          </div>
+        </div>
+        <div class="message">
+          <div class="mark">🌱</div>
+          <p>今回の実践は、身近な対象と丁寧に設計されたワークシートによって、体験を数学的な学びに変える授業です。各校でも、日常の題材から「数学を使って考える」活動を一つずつ設計していきましょう。</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="hint">← → キー / Space で移動　｜　Fキーで全画面表示</div>
+      <div class="controls">
+        <button onclick="change(-1)" id="prev">← 前へ</button>
+        <div class="counter"><strong id="now">1</strong> / 3</div>
+        <button onclick="change(1)" id="next" class="next">次へ →</button>
+      </div>
+      <div class="note">根拠資料：文科省 算数・数学WG資料／NIER 学習評価参考資料【高校数学】</div>
+    </div>
+  </footer>
+</div>
+<script>
+  let current = 1;
+  const total = 3;
+  function update(){
+    for(let i=1;i<=total;i++){
+      document.getElementById('slide-'+i).classList.toggle('active', i===current);
+      const nav = document.getElementById('nav-'+i);
+      nav.classList.toggle('active', i===current);
+      nav.classList.toggle('done', i<current);
+    }
+    document.getElementById('now').textContent=current;
+    const prev=document.getElementById('prev');
+    const next=document.getElementById('next');
+    prev.style.opacity=current===1?.4:1;
+    prev.style.cursor=current===1?'not-allowed':'pointer';
+    next.textContent=current===total?'終了 ✓':'次へ →';
+    next.className=current===total?'':'next';
+  }
+  function change(delta){
+    const target=current+delta;
+    if(target>=1&&target<=total){current=target;update();}
+  }
+  function goTo(n){current=n;update();}
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '){change(1);}
+    if(e.key==='ArrowLeft'){change(-1);}
+    if(e.key.toLowerCase()==='f'){
+      if(!document.fullscreenElement){document.documentElement.requestFullscreen?.();}
+      else{document.exitFullscreen?.();}
+    }
+  });
+  update();
+</script>
+</body>
+</html>

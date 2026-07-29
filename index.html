@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>インタラクティブ助言資料一覧</title>
+  <style>
+    :root{
+      --navy:#0f2a43;
+      --green:#047857;
+      --blue:#0369a1;
+      --amber:#b45309;
+      --purple:#6d28d9;
+      --slate:#475569;
+      --line:#dbe4ef;
+      --bg1:#f0f7f5;
+      --bg2:#e8eef7;
+      --white:#ffffff;
+      --shadow:0 16px 35px rgba(15,42,67,.12),0 6px 14px rgba(15,42,67,.06);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic","YuGothic",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:#0f172a;
+      background:radial-gradient(circle at top left,#ffffff 0,var(--bg1) 35%,var(--bg2) 72%,#e2e8f0 100%);
+    }
+    .wrap{
+      width:min(1100px,92vw);
+      margin:0 auto;
+      padding:48px 0 56px;
+    }
+    header{
+      background:rgba(255,255,255,.92);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:28px 30px;
+      box-shadow:var(--shadow);
+      margin-bottom:22px;
+    }
+    .badge{
+      display:inline-block;
+      background:var(--navy);
+      color:white;
+      border-radius:999px;
+      padding:7px 13px;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.04em;
+      margin-bottom:14px;
+    }
+    h1{
+      margin:0;
+      color:var(--navy);
+      font-size:clamp(26px,4vw,40px);
+      line-height:1.25;
+      letter-spacing:-.03em;
+    }
+    .lead{
+      margin:14px 0 0;
+      color:var(--slate);
+      line-height:1.8;
+      font-size:15px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:18px;
+      margin-top:22px;
+    }
+    .card{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      min-height:230px;
+      text-decoration:none;
+      color:inherit;
+      background:rgba(255,255,255,.94);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:22px;
+      box-shadow:0 10px 24px rgba(15,42,67,.08);
+      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 20px 36px rgba(15,42,67,.14);
+      border-color:#94a3b8;
+    }
+    .topline{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+    .num{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      color:white;
+      font-weight:950;
+      box-shadow:0 8px 14px rgba(15,42,67,.14);
+      flex:0 0 auto;
+    }
+    .num.green{background:var(--green)}
+    .num.blue{background:var(--blue)}
+    .num.amber{background:var(--amber)}
+    .num.purple{background:var(--purple)}
+    .file{
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      color:#64748b;
+      background:#f1f5f9;
+      border:1px solid #e2e8f0;
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:11px;
+      word-break:break-all;
+    }
+    h2{
+      margin:0;
+      color:var(--navy);
+      font-size:20px;
+      line-height:1.45;
+    }
+    p{
+      margin:0;
+      color:var(--slate);
+      line-height:1.75;
+      font-size:14px;
+    }
+    .open{
+      margin-top:auto;
+      color:var(--green);
+      font-weight:900;
+      font-size:14px;
+    }
+    footer{
+      margin-top:22px;
+      color:#64748b;
+      font-size:12px;
+      line-height:1.8;
+      text-align:center;
+    }
+    @media (max-width:760px){
+      .wrap{padding:26px 0 36px}
+      header{padding:22px}
+      .grid{grid-template-columns:1fr}
+      .card{min-height:auto}
+      .topline{align-items:flex-start;flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <span class="badge">数学科 授業改善・助言資料</span>
+      <h1>インタラクティブ助言資料一覧</h1>
+      <p class="lead">
+        研究会・授業実践等に関する4つの助言資料への入口ページです。各カードをクリックすると、対応するHTML資料を開きます。
+      </p>
+    </header>
+
+    <main class="grid" aria-label="助言資料一覧">
+      <a class="card" href="miyakosyoko_itaita.html">
+        <div class="topline">
+          <span class="num green">1</span>
+          <span class="file">miyakosyoko_itaita.html</span>
+        </div>
+        <h2>大学入試で求められる力から通常授業を問い直す</h2>
+        <p>大学入試問題を出口として捉え、通常授業・評価問題・教材選定をバックワードデザインの視点から考える資料です。</p>
+        <span class="open">資料を開く →</span>
+      </a>
+
+      <a class="card" href="miyako_kon.html">
+        <div class="topline">
+          <span class="num blue">2</span>
+          <span class="file">miyako_kon.html</span>
+        </div>
+        <h2>投資信託を等比数列で考察する授業実践への視点</h2>
+        <p>数学B「数列」と生活・社会の判断を接続し、等比数列の和を積立・複利の文脈で考える授業実践に関する資料です。</p>
+        <span class="open">資料を開く →</span>
+      </a>
+
+      <a class="card" href="yamada_tamu.html">
+        <div class="topline">
+          <span class="num amber">3</span>
+          <span class="file">yamada_tamu.html</span>
+        </div>
+        <h2>三角比の有用性を実感する探究的活動</h2>
+        <p>校舎の高さを測定する活動を通して、三角比の有用性、測定計画、誤差、信頼性まで考える授業改善資料です。</p>
+        <span class="open">資料を開く →</span>
+      </a>
+
+      <a class="card" href="ofunatohigasi_mae.html">
+        <div class="topline">
+          <span class="num purple">4</span>
+          <span class="file">ofunatohigasi_mae.html</span>
+        </div>
+        <h2>データの分析・統計の授業への視点</h2>
+        <p>平均・代表値・ばらつき・分布などを、現実のデータや判断場面とつなげて扱う統計授業に関する資料です。</p>
+        <span class="open">資料を開く →</span>
+      </a>
+    </main>
+
+    <footer>
+      <p>※ このページと4つのHTMLファイルを同じフォルダに置いてください。GitHub Pagesでは、この <strong>index.html</strong> が入口ページになります。</p>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>資料｜数学を生活や社会の判断に接続する授業へ</title>
+  <style>
+    :root{
+      --navy:#0f2a43;
+      --navy2:#173b5a;
+      --slate:#475569;
+      --slate2:#64748b;
+      --line:#dbe4ef;
+      --white:#ffffff;
+      --green:#047857;
+      --greenDark:#064e3b;
+      --greenSoft:#ecfdf5;
+      --blue:#0369a1;
+      --blueDark:#075985;
+      --blueSoft:#eff6ff;
+      --amber:#b45309;
+      --amberDark:#92400e;
+      --amberSoft:#fff7ed;
+      --shadow: 0 16px 35px rgba(15, 42, 67, .12), 0 6px 14px rgba(15,42,67,.06);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:"Noto Sans JP", "Hiragino Sans", "Yu Gothic", "YuGothic", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:#0f172a;
+      background:radial-gradient(circle at top left, #ffffff 0, #f0f7f5 35%, #e8eef7 72%, #e2e8f0 100%);
+      overflow:hidden;
+      user-select:none;
+    }
+    .app{min-height:100vh;display:flex;flex-direction:column;}
+    header{
+      height:70px;
+      background:rgba(255,255,255,.95);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 26px;
+      box-shadow:0 6px 18px rgba(15,42,67,.06);
+      z-index:10;
+    }
+    .header-inner{width:min(1280px,100%);display:flex;align-items:center;justify-content:space-between;gap:18px;}
+    .brand{display:flex;align-items:center;gap:12px;min-width:390px;}
+    .badge{background:var(--navy);color:white;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:900;letter-spacing:.04em;box-shadow:0 4px 10px rgba(15,42,67,.16);white-space:nowrap;}
+    .brand h1{margin:0;font-size:15px;color:var(--navy);font-weight:900;line-height:1.35;}
+    .nav{display:flex;align-items:center;gap:8px;}
+    .nav button{border:1px solid #cbd5e1;background:#fff;color:var(--slate2);border-radius:12px;padding:8px 11px;display:flex;align-items:center;gap:8px;font-weight:900;font-size:12px;cursor:pointer;transition:.18s;}
+    .nav button:hover{border-color:#94a3b8;background:#f8fafc;}
+    .nav button .num{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#e2e8f0;color:#475569;font-size:12px;}
+    .nav button.active{border-color:var(--green);background:var(--greenSoft);color:var(--greenDark);box-shadow:0 5px 15px rgba(4,120,87,.13);}
+    .nav button.active .num{background:var(--green);color:white;}
+    .nav button.done .num{background:#94a3b8;color:white;}
+    main{flex:1;display:grid;place-items:center;padding:18px 24px 14px;}
+    .deck{width:min(1240px,100%);aspect-ratio:16/9;max-height:calc(100vh - 142px);position:relative;}
+    .slide{
+      position:absolute;inset:0;background:var(--white);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);
+      padding:24px 30px;display:none;overflow:hidden;
+    }
+    .slide.active{display:flex;flex-direction:column;justify-content:space-between;gap:12px;}
+    .slide::before{content:"";position:absolute;right:-160px;top:-190px;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle, rgba(4,120,87,.11), rgba(4,120,87,0) 65%);}
+    .slide-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:10px;position:relative;z-index:1;}
+    .step-label{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:7px 13px;font-size:12px;font-weight:950;border:1px solid;}
+    .step-label.green{background:var(--greenSoft);border-color:#a7f3d0;color:var(--greenDark);}
+    .step-label.blue{background:var(--blueSoft);border-color:#bfdbfe;color:var(--blueDark);}
+    .step-label.amber{background:var(--amberSoft);border-color:#fed7aa;color:var(--amberDark);}
+    .slide-no{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;font-size:12px;color:#94a3b8;font-weight:900;}
+    h2{margin:0;color:var(--navy);font-size:28px;line-height:1.24;font-weight:950;letter-spacing:-.03em;position:relative;z-index:1;}
+    h2 .accent-green{color:var(--green)} h2 .accent-blue{color:var(--blue)} h2 .accent-amber{color:var(--amber)}
+    .lead{margin:7px 0 0;color:#526173;font-size:13.2px;line-height:1.65;max-width:1080px;position:relative;z-index:1;}
+    .grid{display:grid;gap:12px;position:relative;z-index:1;}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .grid-2{grid-template-columns:repeat(2,1fr)}
+    .card{border:1px solid var(--line);border-radius:17px;background:#fff;box-shadow:0 8px 18px rgba(15,42,67,.055);padding:14px;min-height:0;}
+    .soft-green{background:linear-gradient(180deg,#f0fdf4,#fff);border-color:#bbf7d0;}
+    .soft-blue{background:linear-gradient(180deg,#eff6ff,#fff);border-color:#bfdbfe;}
+    .soft-amber{background:linear-gradient(180deg,#fff7ed,#fff);border-color:#fed7aa;}
+    .card-title{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+    .icon{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;color:#fff;font-weight:950;box-shadow:0 8px 14px rgba(15,42,67,.12);flex:0 0 auto;font-size:13px;}
+    .icon.green{background:var(--green)} .icon.blue{background:var(--blue)} .icon.amber{background:var(--amber)}
+    .card h3{margin:0;font-size:14.4px;line-height:1.35;color:var(--navy);font-weight:950;}
+    .card p{margin:0;color:#475569;font-size:12.1px;line-height:1.62;}
+    .mini{padding:9px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;margin-top:8px;}
+    .mini strong{color:#0f2a43;}
+    .quote-box{
+      border-radius:17px;padding:13px 15px;background:#f8fafc;border:1px solid #e2e8f0;display:flex;gap:12px;align-items:flex-start;position:relative;z-index:1;
+    }
+    .quote-box .mark{width:36px;height:36px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:17px;flex:0 0 auto;}
+    .quote-box p{margin:0;font-size:12.2px;line-height:1.62;color:#334155;}
+    .block-title{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #e2e8f0;padding-bottom:8px;margin-bottom:9px;}
+    .pill{border-radius:999px;padding:5px 9px;font-size:10.5px;font-weight:950;color:white;white-space:nowrap;}
+    .pill.green{background:var(--green)} .pill.blue{background:var(--blue)} .pill.amber{background:var(--amber)}
+    ul{margin:0;padding-left:18px;color:#475569;font-size:11.9px;line-height:1.56;}
+    li{margin:3px 0;}
+    li strong{color:#0f2a43;}
+    .two-column-split{display:grid;grid-template-columns:1.05fr .95fr;gap:12px;position:relative;z-index:1;}
+    .rubric-table{width:100%;border-collapse:separate;border-spacing:0;font-size:10.4px;line-height:1.36;position:relative;z-index:1;box-shadow:0 8px 18px rgba(15,42,67,.055);border-radius:15px;overflow:hidden;border:1px solid #cbd5e1;}
+    .rubric-table th{background:#0f2a43;color:white;font-weight:950;padding:8px 7px;text-align:left;border-right:1px solid rgba(255,255,255,.2);}
+    .rubric-table th:nth-child(1){width:16%}
+    .rubric-table th:nth-child(2),.rubric-table th:nth-child(3),.rubric-table th:nth-child(4){width:28%}
+    .rubric-table td{background:#fff;padding:7px 7px;vertical-align:top;border-top:1px solid #e2e8f0;border-right:1px solid #e2e8f0;color:#334155;}
+    .rubric-table tr:nth-child(even) td{background:#f8fafc;}
+    .rubric-table td:first-child{font-weight:950;color:#0f2a43;background:#eef6ff;}
+    .rubric-table td:last-child,.rubric-table th:last-child{border-right:none;}
+    .rubric-note{font-size:10.7px;line-height:1.45;color:#475569;margin-top:7px;border:1px solid #bfdbfe;background:#eff6ff;border-radius:12px;padding:8px 10px;}
+    .unit-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;position:relative;z-index:1;}
+    .unit{padding:10px;border-radius:14px;background:#fff;border:1px solid #e2e8f0;min-height:116px;display:flex;flex-direction:column;gap:6px;}
+    .unit span{font-size:19px}.unit p{margin:0;font-size:10.8px;line-height:1.43;color:#475569;}.unit strong{color:#0f2a43;}
+    .message{
+      display:flex;align-items:center;gap:14px;border-radius:18px;padding:14px 17px;
+      background:linear-gradient(135deg,#064e3b,#173b5a 60%,#0f172a);color:white;box-shadow:0 14px 25px rgba(15,42,67,.14);position:relative;z-index:1;
+    }
+    .message .mark{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:22px;flex:0 0 auto;}
+    .message p{margin:0;font-size:13px;line-height:1.65;font-weight:750;color:#f8fafc;}
+    footer{height:54px;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:center;padding:8px 24px;box-shadow:0 -6px 18px rgba(15,42,67,.05);}
+    .footer-inner{width:min(1280px,100%);display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .hint{font-size:12px;color:#64748b;font-weight:800;}
+    .controls{display:flex;align-items:center;gap:10px;}
+    .controls button{border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc;color:#334155;padding:8px 14px;font-size:12px;font-weight:950;cursor:pointer;transition:.18s;}
+    .controls button.next{background:var(--green);border-color:var(--green);color:white;}
+    .counter{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;font-size:12px;font-weight:950;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:10px;padding:7px 13px;color:#64748b;}
+    .counter strong{color:var(--green)}
+    .note{font-size:10.4px;color:#94a3b8;font-weight:800;}
+    @media (max-width: 1080px){
+      body{overflow:auto}.deck{max-height:none;aspect-ratio:auto}.slide{position:relative;display:none;height:auto;min-height:720px;padding:22px}.slide.active{display:flex}.nav .text{display:none}.brand{min-width:0}.brand h1{font-size:13px}.grid-3,.grid-2,.two-column-split,.unit-grid{grid-template-columns:1fr}.rubric-table{font-size:10px}.unit{min-height:auto}h2{font-size:23px}header,footer{position:sticky}.hint,.note{display:none}
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <span class="badge">視点</span>
+        <h1>「投資信託」を「等比数列」で考察する授業実践への視点</h1>
+      </div>
+      <nav class="nav" aria-label="スライド移動">
+        <button id="nav-1" onclick="goTo(1)"><span class="num">1</span><span class="text">本実践の価値</span></button>
+        <button id="nav-2" onclick="goTo(2)"><span class="num">2</span><span class="text">深めたい点</span></button>
+        <button id="nav-3" onclick="goTo(3)"><span class="num">3</span><span class="text">参加者へ</span></button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="deck">
+      <section id="slide-1" class="slide active">
+        <div>
+          <div class="slide-head">
+            <span class="step-label green">STEP 1：本実践の価値</span>
+            <span class="slide-no">SLIDE 01 / 03</span>
+          </div>
+          <h2>数学を生活や社会の判断に接続し、<span class="accent-green">生徒に学ぶ意義を実感</span>させる実践</h2>
+          <p class="lead">本実践は、数学B「数列」における等比数列の和を、積立・複利・投資信託という生活や社会に関わる題材と結び付け、生徒が「数学は将来の選択や判断を支える知識である」と感じやすい場面をつくっています。</p>
+        </div>
+        <div class="grid grid-3">
+          <div class="card soft-green">
+            <div class="card-title"><span class="icon green">1</span><h3>公式の適用から、意味ある活用へ</h3></div>
+            <p>等比数列の和を、単なる計算練習として扱うのではなく、毎年の積立金が時間の経過とともにどのように増えるかを考える場面に接続している点に価値があります。</p>
+            <div class="mini"><p><strong>評価したい点：</strong>抽象的な数列の内容を、生徒の生活実感や将来の判断に近づけている。</p></div>
+          </div>
+          <div class="card soft-green">
+            <div class="card-title"><span class="icon green">2</span><h3>数学を判断の根拠として使う入口</h3></div>
+            <p>年利0.3％、3％、5％などの結果を比較することで、「同じ1万円の積立でも条件が変わると結果が変わる」ことを数値で捉える活動になっています。</p>
+            <div class="mini"><p><strong>評価したい点：</strong>生徒が感覚ではなく、数値や式を根拠に考えるきっかけをつくっている。</p></div>
+          </div>
+          <div class="card soft-green">
+            <div class="card-title"><span class="icon green">3</span><h3>学ぶ意味を実感する機会</h3></div>
+            <p>生徒の感想にも、身近なお金の話を通して等比数列の有用性を感じている様子が見られます。数学が「問題集の中だけの知識」ではないことを伝える授業です。</p>
+            <div class="mini"><p><strong>評価したい点：</strong>数学を学ぶ意味を、生徒が自分の将来や生活と結び付けて考えられる。</p></div>
+          </div>
+        </div>
+        <div class="quote-box">
+          <div class="mark">※</div>
+          <p><strong>視点として強調したいこと：</strong>この授業は、投資信託を勧める授業ではありません。不確実な社会の中で、自分なりに情報を読み取り、数学的に比較し、判断しようとする態度を育てる授業として価値づけたいと思います。題材の価値は「投資信託」そのものよりも、社会や生活の判断場面で数学を使う経験をつくっている点にあります。</p>
+        </div>
+      </section>
+
+      <section id="slide-2" class="slide">
+        <div>
+          <div class="slide-head">
+            <span class="step-label blue">STEP 2：今後さらに深めたい点</span>
+            <span class="slide-no">SLIDE 02 / 03</span>
+          </div>
+          <h2>判断の理由や考え方の過程を記述させ、<span class="accent-blue">ルーブリックを通して評価と学習改善</span>につなげる</h2>
+          <p class="lead">「投資信託をやってみたいか」という問いは、生徒の関心を引き出す入口として有効です。さらに数学科の学びとして深めるには、その判断に至るまでに、どの数学的事実を使い、どの条件を比較し、どのような理由で判断したのかを表現させることが重要です。</p>
+        </div>
+        <div class="two-column-split">
+          <div class="card soft-blue">
+            <div class="block-title"><h3>学習プリントに追加したい記述欄</h3><span class="pill blue">考え方の過程</span></div>
+            <ul>
+              <li><strong>どのような数列として考えたか。</strong> 積立金が何年分の元利合計になっているのかを整理する。</li>
+              <li><strong>なぜ等比数列の和として表せるのか。</strong> 初項・公比・項数を、問題場面と対応させて説明する。</li>
+              <li><strong>計算結果から何が言えるか。</strong> 利率の違いによる増え方の差を、具体的な金額や傾向で比較する。</li>
+              <li><strong>自分ならどの条件を重視して判断するか。</strong> 増える可能性だけでなく、期間、リスク、不確実性にも触れる。</li>
+              <li><strong>さらに知りたいことは何か。</strong> 手数料、元本割れ、利率が一定でない場合など、数学だけでは判断しきれない条件に気付く。</li>
+            </ul>
+          </div>
+          <div class="card soft-blue">
+            <div class="block-title"><h3>ルーブリック共有の意味</h3><span class="pill blue">学びの調整</span></div>
+            <p>ルーブリックは、教師が採点するためだけのものではなく、生徒が「自分は何を考えればよいのか」「どこまで説明できればよいのか」「次に何を改善すればよいのか」を理解するための道具として共有したいところです。</p>
+            <div class="mini"><p><strong>目指したい姿：</strong>生徒が、計算が合っているかだけでなく、根拠・比較・解釈・判断の質を自分で見直し、学びを調整できるようになること。</p></div>
+          </div>
+        </div>
+        <table class="rubric-table" aria-label="ルーブリック例">
+          <thead>
+            <tr>
+              <th>観点</th>
+              <th>A：十分満足できる状況</th>
+              <th>B：おおむね満足できる状況</th>
+              <th>C：支援・改善が必要な状況</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>数学的な捉え方</td>
+              <td>複利計算の場面を等比数列の和として捉え、初項・公比・項数を問題場面と対応させながら、その理由を説明している。</td>
+              <td>等比数列の和として式を立て、初項・公比・項数をおおむね正しく捉えている。</td>
+              <td>式は立てているが、なぜ等比数列の和として表せるのか、問題場面との対応の説明が不十分である。</td>
+            </tr>
+            <tr>
+              <td>結果の比較・解釈</td>
+              <td>複数の利率の結果を比較し、差や傾向を具体的な数値を用いて説明し、結果の意味を解釈している。</td>
+              <td>複数の計算結果を比較し、増減や違いについて説明している。</td>
+              <td>計算結果は示しているが、その違いや結果の意味についての説明が不十分である。</td>
+            </tr>
+            <tr>
+              <td>判断の理由</td>
+              <td>数学的な結果に加え、期間、リスク、不確実性などの条件も踏まえて、自分の判断理由を筋道立てて説明している。</td>
+              <td>計算結果をもとに、自分の判断とその理由を説明している。</td>
+              <td>判断は書いているが、数学的な根拠や条件の検討が十分ではない。</td>
+            </tr>
+            <tr>
+              <td>学びの調整</td>
+              <td>今回の学習で分かったこと、まだ分からないこと、さらに調べる必要があることを整理し、次の学びにつなげようとしている。</td>
+              <td>今回の学習で分かったことを振り返り、今後考えたいことに触れている。</td>
+              <td>感想は書いているが、学習内容の振り返りや次の学びにつながる記述が不十分である。</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="rubric-note">※ 授業では、この表をそのまま採点表として使うというより、事前に生徒と評価の視点を共有し、記述後の自己評価・相互説明・書き直しに活用することで、指導と評価の一体化につなげることが期待されます。</div>
+      </section>
+
+      <section id="slide-3" class="slide">
+        <div>
+          <div class="slide-head">
+            <span class="step-label amber">STEP 3：参加者への期待</span>
+            <span class="slide-no">SLIDE 03 / 03</span>
+          </div>
+          <h2>各単元で「数学を使って何を判断できるか」を問い直し、<span class="accent-amber">授業改善へ広げる</span></h2>
+          <p class="lead">今回の実践を、投資信託を扱った特別な授業としてだけでなく、各先生方が自分の単元で「生徒が数学を使って考え、判断し、説明する場面」を設計するためのモデルとして受け止めたいところです。</p>
+        </div>
+        <div class="unit-grid">
+          <div class="unit"><span>📈</span><p><strong>二次関数</strong><br>利益・費用・最大値・最小値を用いて、どの選択がより妥当かを判断する。</p></div>
+          <div class="unit"><span>📐</span><p><strong>三角比</strong><br>測量、建物の高さ、傾斜、安全性などを、図や数値を根拠に判断する。</p></div>
+          <div class="unit"><span>🎲</span><p><strong>確率</strong><br>不確実な状況で、起こりやすさや期待値をもとに選択を考える。</p></div>
+          <div class="unit"><span>📊</span><p><strong>統計</strong><br>データの傾向やばらつきを根拠に、説明や意思決定を行う。</p></div>
+          <div class="unit"><span>🔁</span><p><strong>数列</strong><br>積立、ローン、人口変化など、反復的な変化の仕組みを捉える。</p></div>
+        </div>
+        <div class="grid grid-2">
+          <div class="card soft-amber">
+            <div class="block-title"><h3>研究会で持ち帰りたい問い</h3><span class="pill amber">授業改善の視点</span></div>
+            <ul>
+              <li>この単元で、生徒は何を判断できるようになるのか。</li>
+              <li>その判断には、どの数学的な見方・考え方が必要なのか。</li>
+              <li>生徒が自分の考えや判断の理由を表現する場面はあるか。</li>
+              <li>その表現をどのように評価し、次の学びや教師の指導改善につなげるか。</li>
+              <li>生徒自身が、評価の視点をもとに自分の学びを調整する仕組みはあるか。</li>
+            </ul>
+          </div>
+          <div class="card soft-amber">
+            <div class="block-title"><h3>先生方へのメッセージ</h3><span class="pill amber">明日への一歩</span></div>
+            <p>生徒に数学を学ぶ意味を実感させるためには、教師自身がまず、その単元の数学が生活や社会のどのような場面で生きるのかを問い直すことが大切です。今回の実践は、各単元で「数学を使って何を判断できるか」を考えるきっかけになります。</p>
+            <div class="mini"><p><strong>提案：</strong>各校・各教室で、まずは一つの単元に「数学を使って考え、判断し、説明する場面」を意図的に設定してみてください。</p></div>
+          </div>
+        </div>
+        <div class="message">
+          <div class="mark">🌱</div>
+          <p>数学を「解くための知識」から「考え、判断し、説明するための知識」へ。今回の実践を、教科全体の授業改善へ広げていきましょう。</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="hint">← → キー / Space で移動　｜　Fキーで全画面表示</div>
+      <div class="controls">
+        <button onclick="change(-1)" id="prev">← 前へ</button>
+        <div class="counter"><strong id="now">1</strong> / 3</div>
+        <button onclick="change(1)" id="next" class="next">次へ →</button>
+      </div>
+      <div class="note">根拠資料：文科省 算数・数学WG資料／NIER 学習評価参考資料【高校数学】</div>
+    </div>
+  </footer>
+</div>
+<script>
+  let current = 1;
+  const total = 3;
+  function update(){
+    for(let i=1;i<=total;i++){
+      document.getElementById('slide-'+i).classList.toggle('active', i===current);
+      const nav = document.getElementById('nav-'+i);
+      nav.classList.toggle('active', i===current);
+      nav.classList.toggle('done', i<current);
+    }
+    document.getElementById('now').textContent = current;
+    const prev = document.getElementById('prev');
+    const next = document.getElementById('next');
+    prev.style.opacity = current===1 ? .4 : 1;
+    prev.style.cursor = current===1 ? 'not-allowed' : 'pointer';
+    next.textContent = current===total ? '終了 ✓' : '次へ →';
+    next.className = current===total ? '' : 'next';
+  }
+  function change(delta){
+    const target = current + delta;
+    if(target>=1 && target<=total){current=target;update();}
+  }
+  function goTo(n){current=n;update();}
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight' || e.key===' '){change(1);}
+    if(e.key==='ArrowLeft'){change(-1);}
+    if(e.key.toLowerCase()==='f'){
+      if(!document.fullscreenElement){document.documentElement.requestFullscreen?.();}
+      else{document.exitFullscreen?.();}
+    }
+  });
+  update();
+</script>
+</body>
+</html>

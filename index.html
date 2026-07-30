@@ -11,6 +11,7 @@
       --blue:#0369a1;
       --amber:#b45309;
       --purple:#6d28d9;
+      --red:#b91c1c;
       --slate:#475569;
       --line:#dbe4ef;
       --bg1:#f0f7f5;
@@ -109,6 +110,7 @@
     .num.blue{background:var(--blue)}
     .num.amber{background:var(--amber)}
     .num.purple{background:var(--purple)}
+    .num.pdf{background:var(--red)}
     .file{
       font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
       color:#64748b;
@@ -137,6 +139,9 @@
       font-weight:900;
       font-size:14px;
     }
+    .pdf-open{
+      color:var(--red);
+    }
     footer{
       margin-top:22px;
       color:#64748b;
@@ -159,7 +164,7 @@
       <span class="badge">数学科 授業改善・助言資料</span>
       <h1>投影資料一覧</h1>
       <p class="lead">
-        研究会・授業実践等に関する4つの助言資料への入口ページです。各カードをクリックすると、対応するHTML資料を開きます。
+        研究会・授業実践等に関する4つの助言資料への入口ページです。各カードをクリックすると、対応するHTML資料を開きます。PDF版の投影資料もダウンロードできます。
       </p>
     </header>
 
@@ -202,6 +207,16 @@
         <h2>データの分析・統計の授業への視点</h2>
         <p>平均・代表値・ばらつき・分布などを、現実のデータや判断場面とつなげて扱う統計授業に関する資料です。</p>
         <span class="open">資料を開く →</span>
+      </a>
+
+      <a class="card" href="20260730_touei.pdf" download>
+        <div class="topline">
+          <span class="num pdf">PDF</span>
+          <span class="file">20260730_touei.pdf</span>
+        </div>
+        <h2>投影資料PDF版</h2>
+        <p>研究会・授業実践等に関する投影資料をPDF形式でダウンロードできます。必要に応じて印刷・保存してご利用ください。</p>
+        <span class="open pdf-open">PDFをダウンロード →</span>
       </a>
     </main>
 
